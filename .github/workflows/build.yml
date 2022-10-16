@@ -1,0 +1,24 @@
+name: Bannertool Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
+    - name: make
+      run: make
+    - uses: actions/upload-artifact@v2
+      with:
+        name: bannertool-linux-x86_64
+        path: ./output/linux-x86_64/bannertool
+        if-no-files-found: error
